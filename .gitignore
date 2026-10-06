@@ -1,4 +1,5 @@
 # Large datasets (>100MB, exceeds GitHub limit)
+food_compounds_cleaned.csv
 backend/food_compounds_cleaned.csv
 data/00_training.csv
 
@@ -13,6 +14,7 @@ backend/venv/
 # Node.js
 frontend/node_modules/
 frontend/build/
+frontend/dist/
 .npm
 
 # System & IDE
@@ -20,3 +22,4 @@ frontend/build/
 .idea/
 .DS_Store
 Thumbs.db
+node_modules

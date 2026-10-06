@@ -1,0 +1,27 @@
+{
+  "accuracy": 0.9865,
+  "precision_macro": 0.9866,
+  "recall_macro": 0.9855,
+  "f1_macro": 0.9861,
+  "f1_weighted": 0.9865,
+  "roc_auc_ovr": 0.9984,
+  "confusion_matrix": [
+    [
+      738,
+      4,
+      9
+    ],
+    [
+      2,
+      371,
+      5
+    ],
+    [
+      5,
+      1,
+      787
+    ]
+  ],
+  "n_test_samples": 1922,
+  "n_features": 18
+}

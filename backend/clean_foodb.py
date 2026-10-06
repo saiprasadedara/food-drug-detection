@@ -12,15 +12,15 @@ def load_and_clean_data():
   if not train_path.exists():
     raise FileNotFoundError(f"Missing dataset at {train_path}")
 
-  df = pd.read_csv(train_path)
-  print(f"Loaded raw data with shape: {df.shape}")
+    df = pd.read_csv(train_path)
+    print(f"Loaded raw data with shape: {df.shape}")
 
-  # Clean missing values and reset index
-  df = df.dropna().reset_index(drop=True)
-  return df
+    # Clean missing values and reset index
+    df = df.dropna().reset_index(drop=True)
+    return df
 
 
 if __name__ == "__main__":
-  df = load_and_clean_data()
-  print("Preprocessing complete. Cleaned samples:", len(df))
-df.to_csv("food_compounds_cleaned.csv", index=False)
+    df = load_and_clean_data()
+    print("Preprocessing complete. Cleaned samples:", len(df))
+    df.to_csv("food_compounds_cleaned.csv", index=False)

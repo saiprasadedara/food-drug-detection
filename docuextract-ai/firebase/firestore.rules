@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User profile document and user's private documents collection
+    match /users/{userId} {
+      // Allow read and write only if the requester is authenticated and their UID matches the userId
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Document subcollection containing all extracted document records
+      match /documents/{documentId} {
+        // Strict user isolation: user A can NEVER read, create, update, or delete user B's documents
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // Default deny for all other unmatched collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

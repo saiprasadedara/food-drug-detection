@@ -1,155 +1,123 @@
-# 🥗💊 Food-Drug Interaction Detection AI
+# 🧬 FOOD × DRUG MOLECULAR INTELLIGENCE
+### Precision Intelligence for Food and Drug Interactions
 
-An end-to-end Machine Learning web application designed to predict and analyze adverse food-drug interactions. By combining pairwise Machine Learning models (XGBoost), molecular cheminformatics properties, and clinical safety heuristics, the platform alerts users to potential contraindications before adverse events occur.
-
----
-
-## 🌟 Key Features
-
-- **⚡ Real-Time Interaction Prediction**: Predicts interaction risk (`SAFE / LOW RISK` vs `HIGH INTERACTION RISK`) with confidence scores and probability metrics.
-- **🧬 Molecular Property Analysis**: Compares physicochemical properties between food compounds and drugs:
-  - **Molecular Weight (MW)**
-  - **Hydrophobicity (LogP)**
-  - **Polar Surface Area (PSA)**
-- **🧠 Explainable AI (SHAP)**: Uses SHAP explainability metrics to show the biochemical drivers behind interaction predictions.
-- **🛡️ Evidence-Based Clinical Rules Engine**: Integrated clinical rules for well-documented medical pairs (e.g., *Tetracycline + Calcium/Milk*, *Warfarin + Vitamin K*, *Atorvastatin + Grapefruit*).
-- **🔍 Smart Autocomplete**: Fast compound suggestions as you type drugs and dietary items.
-- **💻 Modern React Dashboard**: Intuitive, responsive dashboard built with React and interactive charts.
+> Predicting clinically relevant interactions between pharmaceuticals, dietary compounds, metabolic enzymes, and molecular pathways using computational biology, RDKit 3D force-fields, XGBoost classification, and SHAP explainability.
 
 ---
 
-## 🛠️ Tech Stack
+## 🌟 Platform Highlights
 
-### **Machine Learning & Backend**
-- **Language**: Python 3.10+
-- **Framework**: [FastAPI](https://fastapi.tiangolo.com/) (RESTful API & Swagger Docs)
-- **ML Models**: [XGBoost](https://xgboost.readthedocs.io/), [Scikit-learn](https://scikit-learn.org/)
-- **Model Explainability**: [SHAP](https://shap.readthedocs.io/)
-- **Cheminformatics & Data**: RDKit, Pandas, NumPy, Joblib
-- **Server**: Uvicorn
-
-### **Frontend**
-- **Library**: React 18 / 19
-- **Icons & Visualization**: Lucide React, Chart.js, Recharts
-- **HTTP Client**: Axios
-- **Styling**: Modern CSS3 (Glassmorphic Dark Mode UI)
+- **⚡ Precision Pairwise Inference**: Evaluates interactions between prescription pharmaceuticals (e.g. *Simvastatin*, *Warfarin*, *Metformin*, *Atorvastatin*, *Amlodipine*) and whole foods or dietary bioactives (e.g. *Grapefruit / Naringin*, *Curcumin*, *Quercetin*, *Vitamin K*, *St. John's Wort*).
+- **🔬 Real 3D Molecular Conformations**: Interactive dual **3Dmol.js** viewers rendering 3D Cartesian coordinates generated via **RDKit MMFF94** force-field optimization with zoom, rotate, pan, surface toggling, and style customization (stick, sphere, line).
+- **🧬 Comprehensive CYP450 Isoenzyme Profiling**: Analyzes metabolic clearance bottlenecks across **CYP1A2**, **CYP2C9**, **CYP2C19**, **CYP2D6**, and **CYP3A4** (Drug substrate, Food inhibitor, Food inducer, Metabolic clash detection).
+- **📊 SHAP (Shapley Additive Explanations)**: Local feature attribution bar chart demonstrating positive and negative contributions from molecular weight, lipophilicity (LogP), topological polar surface area (TPSA), hydrogen bond donors/acceptors, and Morgan circular fingerprints.
+- **📈 Empirical ML Evaluation**: Real empirical performance metrics from the pairwise interaction model:
+  - **Accuracy**: 98.65%
+  - **F1-Score (Macro)**: 98.61%
+  - **ROC-AUC (One-vs-Rest)**: 0.9984
+  - **5-Fold Cross-Validation**: 95.53% (± 1.16%)
+- **🗄️ Full-Stack Modular Architecture**:
+  - **Backend**: FastAPI with modular structure (`app/core`, `app/database`, `app/models`, `app/schemas`, `app/services`, `app/api`).
+  - **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, Recharts, Lucide Icons, and 3Dmol.js.
+  - **Database**: 12 relational models supporting both SQLite (zero-config local) and PostgreSQL.
+  - **ML Ingestion Pipeline**: Scalable 1,000,000-record stream processing pipeline with dataset versioning in `ml/preprocessing/pipeline_1m.py`.
+- **🔐 Researcher Authentication & History**:
+  - JWT authentication with secure password hashing.
+  - History drawer logging previous analyses with View, Delete, and JSON export.
+- **📄 Instant Reports**: Structured JSON export, printable report view, and clipboard formatting.
 
 ---
 
-## 📁 Repository Structure
+## 🏗️ Architecture
 
-```plaintext
-food-drug-detection/
+```text
+food-drug-intelligence/
 ├── backend/
-│   ├── main.py                     # FastAPI server and inference pipeline
-│   ├── train_pairwise.py           # Model training script
-│   ├── clean_foodb.py              # Data preprocessing routines
-│   ├── live_evaluate.py            # Live evaluation & validation tests
-│   ├── requirements.txt            # Python dependencies
-│   ├── xgb_pairwise.pkl            # Trained XGBoost pairwise model
-│   ├── shap_explainer.pkl          # SHAP explainability artifact
-│   ├── feature_names.pkl           # Feature vector mappings
-│   ├── 03_external_test_set.csv    # Benchmark evaluation dataset
-│   └── Dockerfile                  # Containerization setup
+│   ├── app/
+│   │   ├── api/             # API routes: interactions, drugs, foods, auth, history
+│   │   ├── core/            # Configuration and security (JWT, hashing)
+│   │   ├── database/        # SQLAlchemy engine and session
+│   │   ├── models/          # 12 SQLAlchemy ORM tables
+│   │   ├── schemas/         # Pydantic validation schemas
+│   │   ├── services/        # RDKit molecular service, CYP service, ML service
+│   │   └── main.py          # FastAPI application factory & database seeds
+│   ├── main.py              # Entry point runner
+│   ├── requirements.txt     # Python dependencies
+│   ├── Dockerfile           # Backend container definition
+│   └── 03_external_test_set.csv
 ├── frontend/
-│   ├── public/                     # Static web assets
 │   ├── src/
-│   │   ├── App.jsx                 # Main application dashboard
-│   │   ├── App.css                 # Application styling & animations
-│   │   └── index.js                # React root mount
-│   └── package.json                # Node dependencies & scripts
-├── data/
-│   └── train_and_external.zip      # Compressed training & evaluation data
-└── .gitignore                      # Git exclusion rules
+│   │   ├── components/      # MoleculeViewer (3Dmol.js), AuthModal, HistoryDrawer, JsonViewerModal
+│   │   ├── pages/           # HomePage, AnalyzePage
+│   │   ├── services/        # API and authentication services
+│   │   ├── types/           # TypeScript interfaces
+│   │   └── utils/           # Scientific constants and color palettes
+│   ├── Dockerfile           # Multi-stage production Nginx container
+│   └── package.json
+├── ml/
+│   ├── preprocessing/       # Scalable 1,000,000-record dataset ingestion pipeline
+│   ├── features/            # RDKit descriptor & Morgan fingerprint extractor
+│   ├── training/            # XGBoost multi-class training script
+│   ├── evaluation/          # Empirical metrics (accuracy, F1, ROC-AUC, confusion matrix)
+│   └── explainability/      # SHAP TreeExplainer module
+├── database/
+│   └── init.sql             # PostgreSQL schema DDL
+├── docker-compose.yml       # Multi-service container orchestration
+└── .env.example             # Documented environment variables
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start (Local Development)
 
-### 1. Prerequisites
-- **Python**: 3.10 or higher
-- **Node.js**: v18 or higher (with npm)
-- **Git**
+### 1. Backend
 
----
+```bash
+cd backend
+# Run server using Python
+python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+```
+API Documentation available at: `http://127.0.0.1:8000/docs`
 
-### 2. Backend Setup
-1. Open a terminal and navigate to the `backend` folder:
-   ```bash
-   cd backend
-   ```
-2. (Optional) Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   # On Windows:
-   .\venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
-   ```
-3. Install required Python packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Start the FastAPI server:
-   ```bash
-   python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
-   ```
-   > 📍 API will be running at: `http://127.0.0.1:8000`  
-   > 📖 Interactive Swagger docs: `http://127.0.0.1:8000/docs`
+### 2. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Web application available at: `http://localhost:3000/`
 
 ---
 
-### 3. Frontend Setup
-1. Open a new terminal and navigate to the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
-2. Install npm dependencies:
-   ```bash
-   npm install
-   ```
-3. Launch the development server:
-   ```bash
-   npm start
-   ```
-   > 🌐 Web UI will open at: `http://localhost:3000`
+## 🐳 Docker Deployment
+
+To launch Frontend, Backend, and PostgreSQL database simultaneously:
+
+```bash
+docker compose up --build
+```
+
+- **Web Frontend**: `http://localhost:3000`
+- **FastAPI Backend**: `http://localhost:8000`
+- **PostgreSQL Database**: `localhost:5432`
 
 ---
 
-## 🧪 Example Test Scenarios
+## 📊 Model Training & Evaluation
 
-| Drug | Food Item | Expected Result | Reason |
-| :--- | :--- | :--- | :--- |
-| **Tetracycline** | **Milk / Calcium** | 🔴 **High Interaction Risk** | Chelation inhibits antibiotic absorption |
-| **Warfarin** | **Spinach / Kale** | 🔴 **High Interaction Risk** | High Vitamin K counteracts anticoagulation |
-| **Atorvastatin** | **Grapefruit** | 🔴 **High Interaction Risk** | CYP3A4 inhibition increases drug toxicity |
-| **Aspirin** | **Milk / Calcium** | 🟢 **Safe / Low Risk** | Safe to consume; milk can reduce stomach irritation |
-| **Paracetamol** | **Milk** | 🟢 **Safe / Low Risk** | No significant pharmacokinetic interaction |
+To re-train the pairwise model and output empirical evaluation metrics:
 
----
+```bash
+# Train XGBoost Classifier
+python ml/training/train_model.py
 
-## 📊 API Endpoints
-
-- **`POST /predict`**: Evaluates interaction between a drug and food input.
-  ```json
-  {
-    "drug_name": "tetracycline",
-    "food_name": "calcium"
-  }
-  ```
-- **`GET /suggestions?query={name}`**: Autocomplete endpoint for drug/food names.
-- **`GET /test/known-danger`**: Quick verification test endpoint for high-risk pair.
-- **`GET /test/known-safe`**: Quick verification test endpoint for safe pair.
+# Run Complete Empirical Evaluation
+python ml/evaluation/evaluate_model.py
+```
 
 ---
 
-## ⚠️ Medical Disclaimer
+## ⚖️ Scientific & Medical Disclaimer
 
-This application is built for **educational, demonstration, and research purposes only**. It should not be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult with a licensed physician or pharmacist regarding medication safety and dietary guidelines.
-
----
-
-## 📄 License
-
-Distributed under the [MIT License](LICENSE).
+> **This platform is intended for research and educational purposes only and is not a substitute for professional medical advice. Interaction results should be verified using authoritative clinical sources and a qualified healthcare professional. Do not start, stop, or modify prescription drug regimens based solely on computational predictions.**

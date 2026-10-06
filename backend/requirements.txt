@@ -9,3 +9,5 @@ scikit-learn
 pydantic
 rdkit
 requests
+sqlalchemy
+pyjwt

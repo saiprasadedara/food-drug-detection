@@ -1,0 +1,17 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // User-specific document storage directory:
+    // users/{userId}/documents/{documentId}/original/{filename}
+    match /users/{userId}/{allPaths=**} {
+      // Allow read, write, and delete only if the requester is authenticated and matches userId
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Deny all other access to prevent public access to private uploaded documents
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: food_drug_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-food_drug_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secure_scientific_password}
+      POSTGRES_DB: ${POSTGRES_DB:-food_drug_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-food_drug_user} -d ${POSTGRES_DB:-food_drug_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: food_drug_backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-food_drug_user}:${POSTGRES_PASSWORD:-secure_scientific_password}@postgres:5432/${POSTGRES_DB:-food_drug_db}
+      SECRET_KEY: ${SECRET_KEY:-molecular-intelligence-secret-key-super-secure-2026}
+      MODEL_VERSION: v2.4.1-rc
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: food_drug_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  pgdata:

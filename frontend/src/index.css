@@ -1,13 +1,218 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════
+   FOOD × DRUG MOLECULAR INTELLIGENCE
+   Premium Scientific Research Platform
+   Design System & Global Styles
+   ═══════════════════════════════════════════════ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0a0a0f;
+    color: #f0f0f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: rgba(6, 182, 212, 0.3);
+    color: #f0f0f5;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  /* ── Glass Card ── */
+  .glass-card {
+    @apply bg-surface-50/80 backdrop-blur-xl border border-surface-border 
+           rounded-lg transition-all duration-300;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-card:hover {
+    @apply border-surface-border-hover;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* ── Technical Label ── */
+  .tech-label {
+    @apply font-mono text-[10px] font-semibold tracking-[0.15em] uppercase text-text-tertiary;
+  }
+
+  .tech-label-cyan {
+    @apply font-mono text-[10px] font-semibold tracking-[0.15em] uppercase text-accent-cyan;
+  }
+
+  /* ── Section Title (Editorial) ── */
+  .section-title {
+    @apply font-display text-3xl md:text-4xl lg:text-5xl font-medium text-text-primary 
+           tracking-tight leading-[1.15];
+  }
+
+  /* ── Separator ── */
+  .thin-separator {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-surface-border-hover to-transparent;
+  }
+
+  /* ── Scientific Badge ── */
+  .sci-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-[10px] font-mono 
+           font-semibold tracking-[0.12em] uppercase border transition-all duration-200;
+  }
+
+  .sci-badge-cyan {
+    @apply sci-badge bg-accent-cyan-dim text-accent-cyan border-accent-cyan/20;
+  }
+
+  .sci-badge-emerald {
+    @apply sci-badge bg-accent-emerald-dim text-accent-emerald border-accent-emerald/20;
+  }
+
+  .sci-badge-amber {
+    @apply sci-badge bg-accent-amber-dim text-accent-amber border-accent-amber/20;
+  }
+
+  .sci-badge-red {
+    @apply sci-badge bg-accent-red-dim text-accent-red border-accent-red/20;
+  }
+
+  /* ── Input Field ── */
+  .sci-input {
+    @apply w-full bg-surface/80 border border-surface-border rounded-lg px-4 py-3.5
+           text-text-primary font-mono text-sm outline-none transition-all duration-300
+           placeholder:text-text-muted;
+  }
+
+  .sci-input:focus {
+    @apply border-accent-cyan/40;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.08), 0 0 20px rgba(6, 182, 212, 0.06);
+  }
+
+  /* ── Primary Button ── */
+  .btn-primary {
+    @apply w-full bg-accent-cyan text-surface font-mono text-sm font-bold 
+           tracking-[0.08em] uppercase py-4 px-6 rounded-lg transition-all duration-300
+           hover:bg-cyan-400 hover:shadow-glow-cyan hover:-translate-y-0.5
+           disabled:bg-surface-300 disabled:text-text-muted disabled:cursor-not-allowed
+           disabled:hover:translate-y-0 disabled:hover:shadow-none;
+  }
+
+  /* ── Metric Card ── */
+  .metric-card {
+    @apply glass-card p-5 flex flex-col gap-2;
+  }
+
+  /* ── Grid Background ── */
+  .bg-scientific-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ── Animated Background Dots ── */
+  .bg-molecular-dots::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(6, 182, 212, 0.08) 1px, transparent 0);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ── Radial Glow ── */
+  .bg-hero-glow {
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(6, 182, 212, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 30% 20%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+  }
+
+  /* ── Enzyme Status Indicators ── */
+  .status-yes {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono 
+           font-semibold bg-accent-emerald-dim text-accent-emerald border border-accent-emerald/20;
+  }
+
+  .status-no {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono 
+           font-semibold bg-surface-200 text-text-tertiary border border-surface-border;
+  }
+
+  .status-clash {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono 
+           font-semibold bg-accent-red-dim text-accent-red border border-accent-red/20;
+  }
+
+  /* ── Loading Skeleton ── */
+  .skeleton {
+    @apply bg-surface-200 rounded animate-pulse;
+  }
+
+  .skeleton-shimmer {
+    @apply relative overflow-hidden bg-surface-200 rounded;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.02) 25%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.02) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+@layer utilities {
+  .text-gradient-cyan {
+    @apply bg-gradient-to-r from-accent-cyan to-cyan-300 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-emerald {
+    @apply bg-gradient-to-r from-accent-emerald to-emerald-300 bg-clip-text text-transparent;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
 }
